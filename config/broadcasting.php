@@ -44,6 +44,9 @@ return [
                 'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
             ],
             'client_options' => [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
             ],
         ],
