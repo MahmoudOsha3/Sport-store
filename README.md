@@ -1,56 +1,86 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 E-Commerce Platform – Laravel Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+منصة تجارة إلكترونية متكاملة مبنية باستخدام **PHP** و **Laravel Framework**، تهدف لتسهيل عملية الشراء والإدارة سواء للمستخدم أو للمدير (Admin)، مع توفير نظام دفع آمن، إدارة شاملة للمنتجات، نظام كوبونات، وإشعارات لحظية.
 
-## 🚀 E-Commerce Platform – Laravel Project
+---
 
-منصة تجارة إلكترونية متكاملة مبنية باستخدام PHP و Laravel Framework، تهدف لتسهيل عملية الشراء والإدارة سواء للمستخدم أو للمدير (Admin)، مع توفير نظام دفع آمن، إدارة شاملة للمنتجات، نظام كوبونات، وإشعارات لحظية
+## 🔥 المميزات الأساسية
 
-## Learning Laravel
+### 🛒 **1. نظام الدفع الإلكتروني**
+- دمج **Paymob Integration** لتسهيل الدفع الإلكتروني باستخدام بطاقات الفيزا.
+- معالجة الدفع داخل النظام بطريقة آمنة وسلسة.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 📧 **2. إرسال الإيميلات**
+- إرسال **Feedback Email** للمستخدم بعد إتمام عملية الحجز.
+- نظام **Reset Password** باستخدام الإيميل.
+- استخدام **Mailgun / Laravel Mail** لإرسال الرسائل التنبيهية.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+### 🔔 **3. إشعارات لحظية للمدير (Admin) باستخدام Pusher**
+- عند قيام المستخدم بعملية طلب جديدة:
+  - يصل إشعار فوري للـ Admin.
+  - يتضمّن الإشعار رابط مباشر لصفحة الطلب.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+### 🎟️ **4. نظام الكوبونات والخصومات**
+- إنشاء وإدارة قسائم الخصم.
+- تطبيق الخصومات مباشرة على الطلب.
+- إمكانية تحديد صلاحية الكوبون وقيمته وشروط استخدامه.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+### 🛠️ **5. لوحة تحكم Admin متكاملة**
+- إدارة المنتجات بالكامل.  
+- إدارة المستخدمين والعملاء.  
+- إدارة الأقسام (Categories).  
+- إدارة الكوبونات.  
+- أرشفة المنتجات واسترجاعها.  
+- نظام Authentication منفصل لكل من:  
+  - المستخدم (User)  
+  - المدير (Admin)  
+- تطبيق **Throttle Middleware** لتجنب الهجمات (Brute Force / Spam).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+### 🔄 **6. Queue System لإدارة الطلبات**
+- أي طلب لم يتم دفعه يتم **إلغاؤه تلقائيًا بعد ساعة** باستخدام Laravel Jobs & Queue.
+- عند إلغاء الطلب:
+  - يتم **استرجاع الكمية للـ Stock** مرة أخرى.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+### 📦 **7. إدارة المخزون (Stock Management)**
+- تحديث مخزون المنتج حسب الطلبات.
+- استرجاع الكمية عند الإلغاء أو الرفض.
+- منع شراء منتج غير متوفر.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### 📊 **8. Dashboard متقدمة للإحصائيات**
+- عدد الطلبات خلال كل شهر.
+- الطلبات المعلّقة / المكتملة.
+- أكثر المنتجات مبيعًا.
+- رسوم بيانية باستخدام Laravel Charts.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+### 👤 **9. لوحة مستخدم (User Dashboard)**
+- إدارة الحساب الشخصي.
+- مشاهدة الطلبات.
+- التحكم في إعدادات المستخدم.
+
+---
+
+## 🧱 التقنيات المستخدمة
+- PHP 8+  
+- Laravel 11  
+- MySQL  
+- Pusher  
+- Paymob API  
+- Laravel Queue / Jobs  
+- Authentication
+- Mailgun   
