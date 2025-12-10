@@ -26,13 +26,6 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with('orderItems')->where('user_id' , auth()->user()->id)->latest()->get() ;
-//         foreach($orders as $order){
-//             foreach($order->orderItems as $item)
-//             {
-//                 return $item->product ;
-//             }
-//         }
-// // /        return $orders;
         return view('website.orders.index' , compact('orders')) ;
     }
 
@@ -51,16 +44,7 @@ class OrderController extends Controller
     {
         try{
             DB::beginTransaction();
-            $order = Order::with('orderItems')->findorfail($order_id) ;
-            foreach ($order->orderItems as $orderItem)
-            {
-                ProductVariant::where([
-                    'product_id' => $orderItem->product_id ,
-                    'color' => $orderItem->options['color'],
-                    'size' => $orderItem->options['size'],
-                    ])->increment('stock' , $orderItem->quantity) ;
-            }
-            $order->delete() ;
+            $this->orderServivce->deleteOrder($order_id) ;
             DB::commit() ;
             return redirect()->back()->with('success' , 'تم حذف الطلب بنجاح');
         }catch(\Exception $e){

@@ -60,6 +60,13 @@ return
     ],
 
     [
+        'title' => 'الاداور' ,
+        'icon' => '' ,
+        'link' => 'roles.index',
+        'active' => 'roles.*'
+    ],
+
+    [
         'title' => 'المستخدمين' ,
         'icon' => '' ,
         'link' => 'admin.users',

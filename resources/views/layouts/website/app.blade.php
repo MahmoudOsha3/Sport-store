@@ -13,9 +13,7 @@
 <body class="bg-gray-100 text-gray-800 transition-colors duration-300">
 
     <!-- Header Section -->
-    {{-- @include('layouts.website.nav') --}}
     <x-nav-site  name="ali"/>
-
 
     @yield('content')
 

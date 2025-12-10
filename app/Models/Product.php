@@ -3,17 +3,48 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 class Product extends Model
 {
 
     use HasFactory , SoftDeletes;
     protected $fillable = ['title' , 'description' , 'slug' , 'image' , 'sku' , 'price' ,'compare_price','rate','status' ,'category_id' ] ;
 
+
+    protected $hidden = ['created_at' , 'updated_at' , 'deleted_at' , 'image' , 'slug'] ;
+
+    protected $appends = ['image_url'];
+
+    // Observe
+    protected static function booted(){
+
+        static::creating(function(Product $product){
+            $prefix = 'CURVA-' ; // name of brand
+            $latest_sku = Product::latest('id')->value('sku') ;
+
+            if($latest_sku)
+            {
+                $sku_parts = explode('-' , $latest_sku) ; // convert array and separate after each (-)
+                $latest_part = end($sku_parts) ;
+                if(is_numeric($latest_part)){
+                    $latest_part ++ ;
+                    $product->sku = $prefix . str_pad($latest_part , '4' , '0', STR_PAD_LEFT);
+                }
+
+            }else{
+                $product->sku = $prefix . '0001' ;
+            }
+
+            $product->slug = Str::slug($product->title) ;
+        });
+    }
 
     // local scope
     public function scopeSearch(Builder $builder ,$request)
@@ -23,36 +54,24 @@ class Product extends Model
         });
     }
 
-    // Accessors 
+    // Accessors
     public function getDiscountPercentageAttribute()
     {
         return  round(($this->compare_price - $this->price) / $this->compare_price  * 100 , 2) ;
     }
 
-    // Global scope
-    protected static function booted(){
-        static::creating(function(Product $product){
-            $prefix = 'CURVA-' ; // name of brand
-            $latest_sku = Product::latest('id')->value('sku') ;
-
-            // $latest_sku = Product::latest()->value('sku');
-            if($latest_sku)
-            {
-                $sku_parts = explode('-' , $latest_sku) ; // convert array and separate after each (-)
-                $latest_part = end($sku_parts) ;
-                if(is_numeric($latest_part)){
-                    $latest_part ++ ;
-                    $product->sku = $prefix . str_pad($latest_part , '4' , '0', STR_PAD_LEFT);
-                    // $product->sku = $prefix . $latest_part + 1 ;
-                }
-                // $product->sku = $prefix . str_pad($new_numeric_part, '4' , '0', STR_PAD_LEFT) ;
-
-            }else{
-                $product->sku = $prefix . '0001' ;
-            }
-        });
+    public function getPricePoundAttribute(){
+        return $this->price . ' ' . 'جنيه';
     }
 
+    public function getImageUrlAttribute()
+    {
+        return asset('products/'.$this->image) ;
+    }
+
+
+
+    // relationship
     public function category()
     {
         return $this->belongsTo(Category::class,'id') ;

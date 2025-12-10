@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\{ProductController , ProductVariantController};
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestQueryController;
 use App\Http\Controllers\Website\{HomeController , CartController , OrderController , PaymentController};
 use App\Models\Order;
 use Illuminate\Routing\RouteGroup;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
     });
 
 
-    Route::get('/home',[HomeController::class , 'index'])->name('home');
+Route::get('/home',[HomeController::class , 'index'])->name('home');
 
 Route::middleware('auth:web')->group(function(){
 
@@ -53,6 +54,11 @@ Route::middleware('auth:web')->group(function(){
         return view('welcome');
     });
 });
+
+
+Route::resource('test/query' , TestQueryController::class ) ;
+Route::get('test/query/color' , [TestQueryController::class , 'getColors'] ) ;
+
 
 
 require __DIR__.'/auth.php';

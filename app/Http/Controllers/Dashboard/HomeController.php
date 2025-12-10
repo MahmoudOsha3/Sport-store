@@ -9,11 +9,13 @@ use App\Models\Product;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        // Gate::authorize('dashboard.view') ;
         $countUsers = User::count() ;
 
         $countNewProducts = Product::whereMonth('created_at' , now()->month)

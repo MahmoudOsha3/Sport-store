@@ -26,34 +26,14 @@ class RolesController extends Controller
         return view('dashboard.roles.create' , compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // return $request ;
-        // DB::beginTransaction();
-        try{
-            $request->validate([
-                'role_name' => 'required|string|max:255' ,
-                'permissions' => 'required|array' ,
-            ]);
-            $role = Role::create(['name' => $request->role_name]) ;
-
-            // return $request => عشان تفهم الكود اللي تحت وبرضك خلي بالك فورم باعته ريكوست ازاي
-            foreach($request->permissions as $ability => $permission ){
-                RoleAbility::create([
-                    'role_id' => $role->id ,
-                    'ability' => $ability ,
-                    'type' => $permission
-                ]);
-            }
-            return redirect()->back()->with(['success' , 'تم الانشاء بنجاح']) ;
-            // DB::commit() ;
-        }catch(\Exception $e){
-            // DB::rollback();
-            throw $e;
-        }
+        $validated = $request->validate([
+            'name' => 'required|string|max:255' ,
+            'permissions' => 'required|array'
+        ]);
+        Role::createWithPermission($request) ;
+        return redirect()->back()->with(['success' => 'تم إنشاء الدور بنجاح']) ;
     }
 
     /**
@@ -61,32 +41,35 @@ class RolesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return 66 ;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         $role = Role::findorfail($id) ;
-        $role_abilities = RoleAbility::where('role_id' , $role->id)->get() ;
-        return view('dashboard.roles.edit' , compact('role' , 'role_abilities')) ;
+        $permissions = RoleAbility::where('role_id' , $role->id)->get() ;
+        return view('dashboard.roles.edit' , compact('role' , 'permissions')) ;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Role $role)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255' ,
+            'permissions' => 'required|array'
+        ]);
+        Role::updateWithPermission($request , $role) ;
+        return redirect()->back()->with(['success' => 'تم التعديل  بنجاح']) ;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete() ;
+        return redirect()->back()->with(['success' => 'تم الحذف  بنجاح']) ;
     }
 }

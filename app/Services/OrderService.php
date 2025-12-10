@@ -20,9 +20,11 @@ class OrderService
             $couponData = ['discount' => 0, 'coupon' => null];
             
             if ($request->filled('coupon_code')) {
+                
                 $couponService = app(CouponService::class);
                 $totalBeforeCoupon = $this->calculateTotalPrice() ;
                 $couponData = $couponService->applyCoupon($request->coupon_code , $totalBeforeCoupon );
+                
                 if (!$couponData['status']) {
                     throw new \Exception('الكوبون غير صحيح او غير صالح للإستخدام') ;
                 } 
@@ -84,5 +86,19 @@ class OrderService
     public function decreaseStock($cart , $orderItem)
     {
         ProductVariant::where('id' , $cart->variant->id)->decrement('stock' , $orderItem->quantity) ;
+    }
+
+    public function deleteOrder($order_id)
+    {
+        $order = Order::with('orderItems')->findorfail($order_id) ;
+        foreach ($order->orderItems as $orderItem)
+        {
+            ProductVariant::where([
+                'product_id' => $orderItem->product_id ,
+                'color' => $orderItem->options['color'],
+                'size' => $orderItem->options['size'],
+                ])->increment('stock' , $orderItem->quantity) ;
+        }
+        $order->delete() ;
     }
 }

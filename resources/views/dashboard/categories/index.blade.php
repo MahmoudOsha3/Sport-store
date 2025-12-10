@@ -12,9 +12,12 @@
         <section id="products-all" class="admin-section">
 
             <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100" data-lang-ar="جميع المنتجات" data-lang-en="All Products">جميع الاقسام</h2>
+            @can('create' , 'App\\Models\Category')
             <button id="openModalBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     إضافة قسم
             </button>
+            @endcan
+
             <div class="overflow-x-auto" style="padding:10px">
                 <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                     <thead>

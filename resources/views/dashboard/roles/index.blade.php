@@ -35,11 +35,8 @@
                     <thead>
                         <tr class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-right">
                             <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">#</th>
-                            <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">المنتج</th>
-                            <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">السعر</th>
-                            <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">رقم التحققي</th>
-                            <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">التقيم</th>
-                            <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">حالة</th>
+                            <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">الدور</th>
+                            <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">عدد المصرح له</th>
                             <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">الإجراءات</th>
                         </tr>
                     </thead>
@@ -48,16 +45,15 @@
                             <tr style="height: 40px;border-bottom:1px solid rgb(222, 219, 219)">
                                 <td style="text-align: center">{{ ++ $index  }}</td>
                                 <td style="text-align: center"><a href="{{ route('roles.edit' , $role->id ) }}">{{ $role->name }}</a></td>
-
+                                <td style="text-align: center">155 role</td>
                                 <td style="text-align: center">
-                                    {{-- <a href="{{ route('roles.show' , $product->id ) }}" class="edit-product-btn bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600 transition-colors duration-200 ml-2 rtl:mr-2" data-lang-ar="إدارة" data-lang-en="Edit">إدارة</a>
-                                    <button id="openModalBtnEdit" class="edit-product-btn bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition-colors duration-200 ml-2 rtl:mr-2" data-lang-ar="تعديل" data-lang-en="Edit">تعديل</button>
-                                    <a href="{{ route('product.archived' , $product->id ) }}" class="delete-product-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition-colors duration-200" data-lang-ar="ارشيف" data-lang-en="Delete">ارشيف</a> --}}
+                                    <a href="{{ route('roles.edit' , $role->id ) }}" class="edit-product-btn bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600 transition-colors duration-200 ml-2 rtl:mr-2">تعديل</a>
+                                    <a href="{{ route('roles.show' , $role->id ) }}" class="edit-product-btn bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition-colors duration-200 ml-2 rtl:mr-2" data-lang-ar="إدارة" data-lang-en="Edit">إدارة</a>
                                 </td>
                             </tr>
                         @empty
                             <tr id="no-products-message" >
-                                <td colspan="5" class="text-center py-5 text-gray-500">لا توجد منتجات حالياً.</td>
+                                <td colspan="5" class="text-center py-5 text-gray-500">لا توجد أداور حالياً.</td>
                             </tr>
                         @endforelse
                     </tbody>

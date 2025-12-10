@@ -64,10 +64,13 @@
                                 <td style="text-align: center">{{ $user->phone }}</td>
                                 <td style="text-align: center">{{ $user->address }}</td>
                                 <td style="text-align: center">
-                                    {{-- <a href="#" class="edit-product-btn bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600 transition-colors duration-200 ml-2 rtl:mr-2" data-lang-ar="إدارة" data-lang-en="Edit">إدارة</a> --}}
-                                    {{-- <button id="openModalBtnEdit" class="edit-product-btn bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition-colors duration-200 ml-2 rtl:mr-2" data-lang-ar="تعديل" data-lang-en="Edit">تعديل</button> --}}
-                                    <a href="#" class="delete-product-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition-colors duration-200" data-lang-ar="حذف" data-lang-en="Delete">حذف</a>
-                                </td>
+                                <button 
+                                    class="openDeleteModal px-4 py-2 bg-red-600 text-white rounded-md"
+                                    data-id="{{ $user->id }}"
+                                >
+                                    حذف
+                                </button>
+
                             </tr>
                         @empty
                             <tr id="no-products-message" >
@@ -79,8 +82,7 @@
                   {{ $users->links() }}
             </div>
         </section>
-
-        {{-- @include('dashboard.products.create') --}}
+        @include('dashboard.users.delete')
     </div>
 @endsection
 
@@ -112,6 +114,8 @@
             // document.getElementById('product-form').reset();
         });
 
+        document.getElementById('deleteModal') ;
+
         // Optional: Hide modal when clicking outside the modal content
         addProductModal.addEventListener('click', function (event) {
             if (event.target === addProductModal) {
@@ -119,7 +123,37 @@
                 addProductModal.classList.remove('flex');
             }
         });
+
     });
 </script>
-@endsection
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById('deleteModal') ;
+    const openButtons = document.querySelectorAll('.openDeleteModal') ;
+    const idInput = document.getElementById('deleteUserId') ;
+    const closeModal = document.getElementById('closeDeleteModal') ;
 
+    openButtons.forEach(btn => {
+        btn.addEventListener('click' , ()=> {
+            idInput.value = btn.dataset.id ;
+            modal.classList.remove('hidden') ;
+            modal.classList.add('flex');
+        });
+    });
+
+    closeModal.addEventListener('click' , ()=>{
+        modal.classList.add('hidden') ;
+        modal.classList.remove('flex');
+    });
+
+    modal.addEventListener('click', e => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    });
+
+});
+</script>
+
+@endsection

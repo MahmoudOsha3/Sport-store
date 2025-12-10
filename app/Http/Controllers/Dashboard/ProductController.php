@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
-use App\Models\Option;
-use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use App\Traits\ManageFileTrait ;
 use Illuminate\Support\Str ;
@@ -15,6 +13,10 @@ use Illuminate\Support\Str ;
 class ProductController extends Controller
 {
     use ManageFileTrait ;
+
+    public function __construct() {
+        // $this->authorizeResource(Product::class , 'product') ;
+    }
 
     public function index(Request $request)
     {
@@ -61,15 +63,6 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-    //     $variants = ProductVariant::where('product_id', $productId)
-    // ->leftJoin('order_items', 'product_variants.sku', '=', 'order_items.sku')
-    // ->select(
-    //     'product_variants.*',
-    //     DB::raw('COUNT(order_items.id) as sold_times'),
-    //     DB::raw('SUM(order_items.quantity) as total_sold_quantity')
-    // )
-    // ->groupBy('product_variants.id')
-    // ->get();
         $product = Product::with('variants')->findorfail($id) ;
         return view('dashboard.product_variant.index' , compact('product')) ;
     }
@@ -79,7 +72,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return "edit" ;
     }
 
     /**
@@ -87,22 +80,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // try{
-        //     $this->uploadFile($request , $folder = 'products' , $disk = 'products');
-        //     $product = Product::create([
-        //         'title' => $request->title ,
-        //         'slug' => Str::slug($request->title) ,
-        //         'description' => $request->description ,
-        //         'price' => $request->price ,
-        //         'compare_price' => $request->compare_price ,
-        //         'image' => $request->file('image')->getClientOriginalName() ,
-        //         'status' => 'active' ,
-        //         'category_id' => $request->category_id
-        //     ]);
-        //     return redirect()->back()->with(['success' ,'تم إنشاء المنتج بنجاح' ]);
-        // }catch(\Exception $e){
-        //     return redirect()->back()->with(['error' , $e->getMessage()]);
-        // }
+        return 1 ;
     }
 
     /**
@@ -110,7 +88,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-
         try{
             $product = Product::onlyTrashed()->find($id);
             $product->forceDelete();

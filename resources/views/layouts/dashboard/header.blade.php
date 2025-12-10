@@ -9,7 +9,7 @@
                 </a>
                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
                     <img src="https://placehold.co/40x40/6366f1/ffffff?text=Admin" alt="Admin Avatar" class="w-10 h-10 rounded-full border-2 border-indigo-500">
-                    <span class="font-semibold text-gray-700 dark:text-gray-200" data-lang-ar="مرحباً، {{ auth()->user()->name  }}" data-lang-en="Hello, Admin">مرحباً، {{ auth()->user()->name  }}</span>
+                    <span class="font-semibold text-gray-700 dark:text-gray-200" >hello , {{ auth()->user()->name  }} <br> {{ auth()->user()->role->name }}</span>
                 </div>
             </div>
 

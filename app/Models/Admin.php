@@ -54,14 +54,17 @@ class Admin extends Authenticatable
         });
     }
 
-    public function isOwner() : bool
+    public function hasPermission($permission)
     {
-        return $this->role === 'owner' ;
+        return RoleAbility::where('role_id' , $this->role_id)
+                        ->where('ability', $permission)
+                        ->where('type' , 'allow')->exists() ;
     }
 
-    public function isSperAdmin() : bool
+
+    public function role()
     {
-        return $this->role === 'super_admin' ;
+        return $this->belongsTo(Role::class , 'role_id');
     }
 
 

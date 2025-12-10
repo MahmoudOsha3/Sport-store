@@ -1,6 +1,10 @@
 <?php
 
-use App\Models\Product;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +22,17 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return $request->user() ;
 });
+Route::middleware('auth:sanctum')->group(function(){
+    Route::apiResource('users', UserController::class) ;
+    Route::apiResource('products', ProductController::class) ;
+    Route::apiResource('carts' , CartController::class) ;
+    Route::apiResource('orders', OrderController::class) ;
+    Route::post('logout' , [AuthController::class  , 'logout']) ;
+
+});
+Route::post('login' , [AuthController::class  , 'login']) ;
+
+
+

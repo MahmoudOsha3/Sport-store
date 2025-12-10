@@ -11,9 +11,13 @@
         <section id="products-all" class="admin-section">
 
             <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100" >جميع كوبونات</h2>
+            @can('create' , 'App\\Models\Coupon')
+
             <button id="openModalBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     إضافة كوبون
             </button>
+            @endcan
+
             <div class="overflow-x-auto" style="padding:10px">
                 <table class="min-w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                     <thead>
@@ -25,7 +29,9 @@
                             <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">عدد الاستخدام حتي الان</th>
                             <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">قيمه الخصم</th>
                             <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">الحاله</th>
-                            <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">الإجراءات</th>
+                            {{-- @can('update' , 'App\\Models\Coupon') --}}
+                                <th class="py-2 px-4 border-b border-gray-300 dark:border-gray-600"  style="text-align: center">الإجراءات</th>                                                                
+                            {{-- @endcan --}}
                         </tr>
                     </thead>
                     <tbody id="products-table-body" >
@@ -40,6 +46,7 @@
                                 <td style="text-align: center">{{ $coupon->status }}</td>
                                 <td style="text-align: center">
 
+                                @can('update' , 'App\\Models\Coupon')
                                 <button
                                     class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded editBtn"
                                     data-id="{{ $coupon->id }}"
@@ -53,7 +60,21 @@
                                 >
                                     تعديل
                                 </button>
-                                    <button class="delete-product-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition-colors duration-200" data-lang-ar="حذف" data-lang-en="Delete">حذف</button>
+                                @endcan    
+                                @can('delete' , 'App\\Models\Coupon')
+                                 <form action="{{ route('coupons.destroy' , $coupon->id) }}" method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                    <button type="submit"  class="delete-product-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition-colors duration-200">حذف</button>
+                                    </form>
+                                {{-- <button 
+                                    class="openDeleteModal px-4 py-2 bg-red-600 text-white rounded-md"
+                                    data-id="{{ $coupon->id }}"
+                                >
+                                    حذف
+                                </button> --}}
+                                @endcan
+
                                 </td>
                             </tr>
                         @empty
@@ -67,7 +88,7 @@
             </div>
         </section>
         @include('dashboard.coupons.edit')
-
+        @include('dashboard.coupons.delete')
 
         <div id="myModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
             <div class="bg-white rounded-lg shadow-xl w-11/12 md:w-1/2 lg:w-1/3 p-6 relative">
@@ -185,6 +206,17 @@ document.addEventListener("DOMContentLoaded", function () {
             editModal.classList.remove('flex');
         });
     });
+
+    // delete modal
+    const deleteModal = document.getElementById('deleteModal') ;
+    document.querySelectorAll('.openDeleteModal').forEach(btn=>{
+        btn.addEventListener('click' , ()=>{
+            deleteModal.classList.remove('hidden') ;
+            deleteModal.classList.add('flex') ;
+            deleteId = btn.dataset.id  ;
+            document.getElementById('deleteCouponId').value = deleteId ;
+        });
+    })
 });
 </script>
 

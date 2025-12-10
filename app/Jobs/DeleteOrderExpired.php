@@ -24,13 +24,12 @@ class DeleteOrderExpired implements ShouldQueue
 
     public function handle(): void
     {
-        $orders = Order::where('created_at', '<', now()->subHour())
+        $orders = Order::where('created_at', '<', now()->subMinute())
                         ->where('payment_status', 'pending')
                         ->with('orderItems')
                         ->get();
 
         foreach ($orders as $order) {
-
             foreach ($order->orderItems as $orderItem) {
                 ProductVariant::where([
                     'product_id' => $orderItem->product_id,
@@ -41,5 +40,6 @@ class DeleteOrderExpired implements ShouldQueue
 
             $order->delete();
         }
+
     }
 }

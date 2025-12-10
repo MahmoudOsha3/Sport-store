@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('role' , ['owner' , 'super_admin' , 'admin'])->default('admin');
             $table->string('email')->unique();
             $table->string('address');
             $table->string('phone');
             $table->string('image')->nullable() ;
+            $table->foreignId('role_id')->nullable()->references('id')->on('roles')->nullOnDelete();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

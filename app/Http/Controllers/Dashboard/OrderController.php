@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('couponUsage')->latest()->paginate(7) ;
+        $this->authorize('viewAny' , Order::class) ;
+        $orders = Order::with('couponUsage' , 'user')->latest()->paginate(7) ;
         return view('dashboard.orders.index' , compact('orders')) ;
     }
 
@@ -36,6 +38,7 @@ class OrderController extends Controller
      */
     public function show($order_id)
     {
+        $this->authorize('view' , Order::class) ;
         $order = Order::with('couponUsage')->findorfail($order_id ) ;
         return view('dashboard.orders.show' , compact('order')) ;
     }
@@ -53,11 +56,17 @@ class OrderController extends Controller
      */
     public function update(Request $request,  $id)
     {
+        $this->authorize('update' , Order::class) ;
+        try{
         $order = Order::findorfail($id) ;
         $order->update([
             'status' => $request->status
         ]) ;
         return redirect()->back()->with(['success' => 'تم تعديل حالة الطلب بنجاح ']);
+        }catch(\Exception $e){
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
+
     }
 
     /**

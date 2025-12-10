@@ -7,9 +7,18 @@
 @section('content')
     <!-- Admin Content Area -->
     <div class="lg:w-2/3 w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-
         <section id="products-all" class="admin-section">
-
+            @if (session()->has('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                        <svg class="fill-current h-6 w-6 text-green-500" role="button" onclick="this.parentElement.parentElement.remove()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <title>Close</title>
+                            <path d="M14.348 5.652a1 1 0 0 0-1.414 0L10 8.586 7.066 5.652A1 1 0 1 0 5.652 7.066L8.586 10l-2.934 2.934a1 1 0 1 0 1.414 1.414L10 11.414l2.934 2.934a1 1 0 0 0 1.414-1.414L11.414 10l2.934-2.934a1 1 0 0 0 0-1.414z"/>
+                        </svg>
+                    </span>
+                </div>
+            @endif
             {{-- search  --}}
             <div class="flex items-center justify-between p-4 bg-gray-100 border-b border-gray-200">
                 <div class="flex items-center space-x-4 rtl:space-x-reverse">
@@ -69,7 +78,7 @@
                             <tr style="height: 40px;border-bottom:1px solid rgb(222, 219, 219)">
                                 <td style="text-align: center">{{ ++ $index  }}</td>
                                 <td style="text-align: center">{{ $product->title }}</td>
-                                <td style="text-align: center">{{ $product->price }}</td>
+                                <td style="text-align: center">{{ $product->price_pound }}</td>
                                 <td style="text-align: center">{{ $product->sku }}</td>
                                 <td style="text-align: center">{{ $product->rate }}</td>
                                 <td class="text-center">

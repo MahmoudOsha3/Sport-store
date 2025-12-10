@@ -18,10 +18,9 @@ use Illuminate\Support\Facades\Route;
 
             Route::resource('categories' , CategoryController::class);
 
+
+
             Route::resource('products' , ProductController::class) ;
-            Route::resource('orders' , OrderController::class ) ;
-
-
             Route::get('products/archived/all' , [ProductController::class , 'showArchived'])->name('product.show.archived') ;
             Route::get('products/archived/{product}' , [ProductController::class , 'archived'])->name('product.archived') ;
             Route::get('products/archived/restore/{product}' , [ProductController::class , 'restore'])->name('product.restore') ;
@@ -30,7 +29,11 @@ use Illuminate\Support\Facades\Route;
 
             Route::resource('coupons' , CouponsController::class ) ;
 
+            Route::resource('orders' , OrderController::class ) ;
+
             Route::get('users' , [UserController::class , 'index'])->name('admin.users');
+            Route::post('users/destroy' , [UserController::class , 'destroy'])->name('admin.user.destroy');
+
 
             // owner , admin
             Route::get('admins' , [AdminController::class , 'index'])->name('admins.action') ;
@@ -41,6 +44,8 @@ use Illuminate\Support\Facades\Route;
 
             Route::post('register' , [AdminController::class , 'store'])
                     ->name('admin.register.store');
+
+                    
 
         });
 

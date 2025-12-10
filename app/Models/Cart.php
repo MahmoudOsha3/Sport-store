@@ -19,13 +19,15 @@ class Cart extends Model
         static::addGlobalScope('carts' , function(Builder $builder){
             $builder->where('cookie_id' , Cart::getCookieId());
             // $builder->where('cookie_id' , Cart::getCookieId())->where('user_id' , auth()->user()->id ) ;
-
         });
+
 
         // في كل مرة يتم إنشاء كرت يتم إنشاء الايدي الخاص بي
         static::creating(function (Cart $cart){
             $cart->cookie_id = Cart::getCookieId() ;
         });
+
+
     }
 
 

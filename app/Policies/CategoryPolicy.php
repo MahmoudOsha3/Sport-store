@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\User;
+
+class CategoryPolicy extends ModelPolicy
+{
+    public function __construct()
+    {
+        //
+    }
+}
