@@ -83,4 +83,6 @@
 - Paymob API  
 - Laravel Queue / Jobs  
 - Authentication
+- Authorization
+- RESTFul API
 - Mailgun   
