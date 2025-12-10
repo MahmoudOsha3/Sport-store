@@ -21,8 +21,8 @@ class PaymobPaymentService extends BasePaymentService implements PaymentGatewayI
 
     public function __construct() {
         // this is configration of paymob
-        $this->api_key = "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TVRBNU5qZ3lOQ3dpYm1GdFpTSTZJbWx1YVhScFlXd2lmUS5WZVVXdlBMNzhyMHF2aGNqMjVPRTZTNHBSYVhrOGtrVDNvNTEwNEx5aVFFSmtaQlZUSjZVSFAtR09VMGtSbVdGU0Z3OGF4Nl8taFJfbHpiNXZtU3RHUQ==" ;
-        $this->base_url = "https://accept.paymob.com" ;
+        $this->api_key = env('PAYMOP_API_KEY') ;
+        $this->base_url = env('PAYMOP_BASE_URL') ;
         $this->header = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
