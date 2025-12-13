@@ -3,49 +3,61 @@
 namespace App\Notifications;
 
 use App\Models\Order;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Mail;
 
 class OrderCreatedNotifiaction extends Notification implements ShouldQueue
 {
     use Queueable;
 
     protected $order ;
-    /**
-     * Create a new notification instance.
-     */
+
     public function __construct(Order $order)
     {
         $this->order = $order;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
     public function via(object $notifiable): array
     {
-        return ['broadcast'];
+        return ['broadcast' , 'database'] ;
+    }
+
+
+    public function toDataBase($notifiable)
+    {
+        return [
+            'created_by' => $this->order->user->name ,
+            'order_id' => $this->order->id ,
+            'number_order' => $this->order->number_order ,
+            'link' => route('orders.show', $this->order->id),
+        ] ;
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'title' => "Notification is done",
-            'body' => "hello  , $this->order . " ,
+            'order' => [
+                'order_number' => $this->order->number_order ,
+                'created_by' => $this->order->user->name ,
+                'link' => route('orders.show', $this->order->id), 
+            ]
         ]);
     }
 
-    public function toArray($notifiable)
+    public function broadcastType()
     {
-        return [
-            'order_id' => $this->order->id,
-            'message' => "New order #{$this->order->id} has been created",
-        ];
+        return 'order.created';
     }
+
+    public function broadcastOn()
+    {
+        return new Channel('admin.orders'); // Public Channel
+    }
+
 }

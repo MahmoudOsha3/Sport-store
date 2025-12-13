@@ -34,7 +34,44 @@
                     <svg id="moon-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                 </button>
 
+                <!-- Notifications Dropdown -->
+                <div x-data="{ open: false, notifications: [], count: 0 }" class="relative">
+                    <!-- Icon Button -->
+                    <button @click="open = !open; count = 0" class="relative p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <!-- Badge -->
+                        <span x-show="count > 0" x-text="count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"></span>
+                    </button>
 
+                    <!-- Notifications Dropdown -->
+                    <div x-show="open" @click.away="open = false"
+                        class="absolute left-0 mt-2 w-80 bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden z-50">
+                        
+                        <div class="p-2 font-semibold border-b border-gray-200 dark:border-gray-700">الإشعارات</div>
+                        
+                        @forelse (auth()->user()->notifications()->get() as $notification)
+                            <a href="{{ $notification->data['link'] }}" 
+                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
+                            
+                                <div>
+                                    <span class="font-semibold">{{ $notification->data['created_by'] ?? 'مستخدم' }}</span> 
+                                    قام بإنشاء طلب <span class="font-bold">{{ $notification->data['order_number'] ?? '' }}</span>
+                                </div>
+                                
+                                <!-- الوقت أسفل الركن الأيسر -->
+                                <div class="text-xs text-gray-400 dark:text-gray-400 mt-1 text-left">
+                                    {{ $notification->created_at->diffForHumans() }}
+                                </div>
+                            </a>
+                            <hr class="border-gray-200 dark:border-gray-700">
+                        @empty
+                            <div class="p-4 text-gray-500 dark:text-gray-400 text-center">لا توجد إشعارات</div>
+                        @endforelse
+                    </div>
+                </div>
 
                 <!-- Search Icon -->
                 <button id="search-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 focus:outline-none">

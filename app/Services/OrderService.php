@@ -3,11 +3,14 @@
 namespace App\Services ;
 
 use App\Events\OrderCreated;
+use App\Models\Admin;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductVariant;
+use App\Notifications\OrderCreatedNotifiaction;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class OrderService
 {
@@ -49,6 +52,8 @@ class OrderService
                 $couponService->recordCouponUsage($couponData['coupon'] , $order , $totalBeforeCoupon , $couponData['discount'] );
             }
 
+            // $admins = Admin::where()->get() ;
+            Notification::send(Admin::all() , new OrderCreatedNotifiaction($order));
             // event(new OrderCreated($order));
             return $order;
         });

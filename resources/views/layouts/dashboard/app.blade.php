@@ -40,7 +40,7 @@
         <script src="{{ asset('dashboard/index.js') }}"></script>
         <script src="{{ asset('dashboard/modal.js') }}"></script>
         <script src="https://js.pusher.com/8.0/pusher.min.js"></script>
-        {{-- @vite(['resources/js/app.js']) --}}
+        @vite(['resources/js/app.js'])
 
         <!-- Bootstrap 3.3.6 -->
         {{-- <script src="{{ asset('dashboard/bootstrap/js/bootstrap.min.js') }}"></script> --}}

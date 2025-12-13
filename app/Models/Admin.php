@@ -11,11 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable ;
-        /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
     protected $fillable = [
         'name',
         'email',
@@ -69,10 +65,4 @@ class Admin extends Authenticatable
 
 
 
-    // public function scopeSearch(Builder $builder ,$request )
-    // {
-    //     $builder->when($request->search , function ($builder , $search){
-    //         $builder->whereAny(['name' , 'email' , 'phone' , 'role' ] , 'like' ,"%{$search}%") ;
-    //     });
-    // }
 }
